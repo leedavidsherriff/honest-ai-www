@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <script>
+   (function () {
+  var proto = XMLHttpRequest.prototype;
+  var open = proto.open, setRequestHeader = proto.setRequestHeader, send = proto.send;
+  var TOKEN_KEY = 'base44_access_token';
+  var storedTokenHeader = function () {
+    try { return 'Bearer ' + localStorage.getItem(TOKEN_KEY); } catch (e) { return null; }
+  };
+  var forgetStoredToken = function () {
+    try { localStorage.removeItem(TOKEN_KEY); localStorage.removeItem('token'); } catch (e) {}
+  };
+
+  proto.open = function (method, url) {
+    this.__b44IsAuthCheck = /\/entities\/User\/me(\?|$)/.test(url);
+    return open.apply(this, arguments);
+  };
+
+  proto.setRequestHeader = function (name, value) {
+    if (this.__b44IsAuthCheck && name.toLowerCase() === 'authorization' && value === storedTokenHeader()) {
+      this.__b44SentToken = value;
+    }
+    return setRequestHeader.call(this, name, value);
+  };
+
+  proto.send = function () {
+    this.addEventListener('loadend', function () {
+      var rejectedTokenStillStored = this.status === 401 && this.__b44SentToken === storedTokenHeader();
+      if (rejectedTokenStillStored) forgetStoredToken();
+    });
+    return send.apply(this, arguments);
+  };
+})();
+  </script>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Honest AI
+  </title>
+  <meta content="A high-end service platform for businesses to build transparent, high-performance AI agents and conversion-focused websites." name="description"/>
+  <meta content="AI agents, AI automation, OpenClaw agent, website design, website hosting, managed ads, staff training, AI chatbot, workflow automation, small business AI" name="keywords"/>
+  <meta content="Honest AI" name="author"/>
+  <meta content="index, follow" name="robots"/>
+  <meta content="#FFFFFF" name="theme-color"/>
+  <meta content="website" property="og:type"/>
+  <meta content="Honest AI" property="og:site_name"/>
+  <meta content="Honest AI" property="og:title"/>
+  <meta content="A high-end service platform for businesses to build transparent, high-performance AI agents and conversion-focused websites." property="og:description"/>
+  <meta content="https://honest-ai.co.uk" property="og:url"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="Honest AI" name="twitter:title"/>
+  <meta content="A high-end service platform for businesses to build transparent, high-performance AI agents and conversion-focused websites." name="twitter:description"/>
+  <link href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='2' fill='%230A0A0B'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23CCFF00'/%3E%3C/svg%3E" rel="icon"/>
+  <script type="application/ld+json">
+   {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Honest AI",
+    "description": "AI agent setups and conversion-focused websites for businesses tired of the hype.",
+    "url": "https://honestai.co/",
+    "email": "hello@honestai.co",
+    "slogan": "AI that actually works — and tells you the truth.",
+    "areaServed": "Worldwide"
+  }
+  </script>
+  <script crossorigin="" src="/assets/index-DzqDKfTk.js" type="module">
+  </script>
+  <link crossorigin="" href="/assets/index-DhnCJcwp.css" rel="stylesheet"/>
+  <script type="module">
+   if (window.self === window.top) {
+  let lastPath = "";
+  function getPageNameFromPath(path) {
+    const segments = path.split("/").filter(Boolean);
+    return segments[0] || null;
+  }
+  function trackPageView() {
+    const path = window.location.pathname;
+    if (path === lastPath) return;
+    lastPath = path;
+    const pageName = getPageNameFromPath(path) || "home";
+    const appId = "6a1e27eeaadb1b2410948242";
+    if (!appId) return;
+    fetch(`/api/app-logs/${appId}/log-user-in-app/${pageName}`, {
+      method: "POST",
+    }).catch(() => {});
+  }
+  const originalPushState = history.pushState.bind(history);
+  history.pushState = function (...args) {
+    originalPushState(...args);
+    trackPageView();
+  };
+  const originalReplaceState = history.replaceState.bind(history);
+  history.replaceState = function (...args) {
+    originalReplaceState(...args);
+    trackPageView();
+  };
+  window.addEventListener("popstate", trackPageView);
+  trackPageView();
+}
+  </script>
+  <meta content="https://media.base44.com/images/public/6a1e27eeaadb1b2410948242/67ec8b8ce_WhatsAppImage2026-06-05at122531.jpeg/v1/fill/w_1200,h_630/67ec8b8ce_WhatsAppImage2026-06-05at122531.jpeg" property="og:image"/>
+  <meta content="https://media.base44.com/images/public/6a1e27eeaadb1b2410948242/67ec8b8ce_WhatsAppImage2026-06-05at122531.jpeg/v1/fill/w_1200,h_630/67ec8b8ce_WhatsAppImage2026-06-05at122531.jpeg" name="twitter:image"/>
+  <meta content="https://honest-ai.co.uk" name="twitter:url"/>
+  <script>
+   (function () {
+  var titles = {"/": "Honest AI", "/services": "Services | Honest AI", "/process": "Process | Honest AI", "/pricing": "Pricing | Honest AI", "/about": "About | Honest AI", "/contact": "Contact | Honest AI", "/portfolio": "Portfolio | Honest AI", "/agents": "Agents Demo | Honest AI", "/meet-agents": "Meet Agents | Honest AI", "/privacy": "Privacy | Honest AI", "/home": "Honest AI"};
+  // PascalCase boundaries -> "-", mirroring _PASCAL_BOUNDARY_RE without lookbehind
+  // (old Safari fails to PARSE a lookbehind, taking the whole script down).
+  var dashed = function (s) {
+    return s.replace(/([a-z0-9])([A-Z])/g, "$1-$2").replace(/([A-Z])([A-Z][a-z])/g, "$1-$2");
+  };
+  var decode = function (s) {
+    // A %2F inside ONE segment must not become a structural separator: /blog/foo%2Fbar is a
+    // dynamic slug, and letting it split would match a static /blog/foo/bar and write ITS title.
+    try { var d = decodeURIComponent(s); return d.indexOf("/") < 0 ? d : s; } catch (e) { return s; }
+  };
+  var segments = function (path) { return path.split("/").filter(Boolean).map(decode); };
+  var norm = function (path) {
+    var parts = segments(path).map(function (s) { return dashed(s).toLowerCase(); });
+    return parts.length ? "/" + parts.join("/") : "/";
+  };
+  var lastPath = location.pathname, written = document.title, on = true;
+  var sync = function () {
+    // Path only: a hash/query change is the same page, and the SDK strips its own auth
+    // params with replaceState -- neither must clobber a server-rendered title in place.
+    if (!on || location.pathname === lastPath) return;
+    lastPath = location.pathname;
+    if (document.title !== written) { on = false; return; }
+    // Write ONLY a title the map proves. An unmapped path is a dynamic route (/blog/:slug) the
+    // map cannot carry, and writing a placeholder there is destructive, not merely vague: the
+    // prerender worker runs no setUserAgent, so its capture browser reads as human and executes
+    // this script, and coordinator.js's settle wait explicitly tolerates a full navigation --
+    // a redirect landing on an unmapped path would bake the placeholder into the stored
+    // snapshot. Leaving the title alone degrades to today's behavior instead.
+    // Exact lookup only. A dash-stripped retry here would let a genuinely different /set-up
+    // claim /setup: the map carries a dash-free key only where a PascalCase boundary put the
+    // dashes there, and the client cannot tell the two apart. The map emits every reachable
+    // shape per segment instead (_client_url_variants).
+    var title = titles[norm(location.pathname)];
+    if (title === undefined) return;
+    document.title = title;
+    // Re-read: the setter stores verbatim but the getter strips and collapses whitespace, so
+    // keeping the assigned string would make the next sync() read our own write as the app's.
+    written = document.title;
+  };
+  var wrap = function (fn) {
+    // The history entry is already pushed by the time sync() runs, so a throw here would
+    // surface inside the host app's router and break navigation. This is injected into apps
+    // we cannot test, so it swallows rather than trusting the trace.
+    return function () {
+      var r = fn.apply(this, arguments);
+      try { sync(); } catch (e) {}
+      return r;
+    };
+  };
+  history.pushState = wrap(history.pushState);
+  history.replaceState = wrap(history.replaceState);
+  window.addEventListener("popstate", sync);
+})();
+  </script>
+  <meta content="yes" name="mobile-web-app-capable"/>
+  <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+  <meta content="Honest AI" name="apple-mobile-web-app-title"/>
+  <link href="https://honest-ai.co.uk" rel="canonical"/>
+  <script data-seo-source="builder" type="application/ld+json">
+   {"name": "Honest AI", "@context": "https://schema.org", "@type": "WebSite", "url": "https://honest-ai.co.uk"}
+  </script>
+  <script data-seo-source="builder" type="application/ld+json">
+   {"name": "Honest AI", "logo": "https://media.base44.com/images/public/6a1e27eeaadb1b2410948242/0db1723f1_logo.png", "@context": "https://schema.org", "@type": "Organization", "url": "https://honest-ai.co.uk"}
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div data-seo-source="builder" id="seo-snapshot" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
+    <main>
+     <header>
+      <h1>
+       Honest AI
+      </h1>
+      <p>
+       A high-end service platform for businesses to build transparent, high-performance AI agents and conversion-focused websites.
+      </p>
+     </header>
+     <nav aria-label="Pages">
+      <h2>
+       Pages
+      </h2>
+      <ul>
+       <li>
+        <a href="/services">
+         Services
+        </a>
+        — Services on Honest AI. A high-end service platform for businesses to build transparent, high-performanc.
+       </li>
+       <li>
+        <a href="/process">
+         Process
+        </a>
+        — Process on Honest AI. A high-end service platform for businesses to build transparent, high-performanc.
+       </li>
+       <li>
+        <a href="/pricing">
+         Pricing
+        </a>
+        — Pricing on Honest AI. A high-end service platform for businesses to build transparent, high-performanc.
+       </li>
+       <li>
+        <a href="/about">
+         About
+        </a>
+        — About on Honest AI. A high-end service platform for businesses to build transparent, high-performanc.
+       </li>
+       <li>
+        <a href="/contact">
+         Contact
+        </a>
+        — Contact on Honest AI. A high-end service platform for businesses to build transparent, high-performanc.
+       </li>
+       <li>
+        <a href="/portfolio">
+         Portfolio
+        </a>
+        — Portfolio on Honest AI. A high-end service platform for businesses to build transparent, high-performanc.
+       </li>
+       <li>
+        <a href="/agents">
+         Agents Demo
+        </a>
+        — Agents Demo on Honest AI. A high-end service platform for businesses to build transparent, high-performanc.
+       </li>
+       <li>
+        <a href="/meet-agents">
+         Meet Agents
+        </a>
+        — Meet Agents on Honest AI. A high-end service platform for businesses to build transparent, high-performanc.
+       </li>
+       <li>
+        <a href="/privacy">
+         Privacy
+        </a>
+        — Privacy on Honest AI. A high-end service platform for businesses to build transparent, high-performanc.
+       </li>
+      </ul>
+     </nav>
+    </main>
+   </div>
+  </div>
+ </body>
+</html>

@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Right Price Builders — Quality Craftsmanship, Yorkshire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0806;--bg2:#110e0a;
+  --gold:#c87d2f;--glt:#e8a848;
+  --cream:#f3ece0;--mut:#6b6055;
+  --bdr:rgba(243,236,224,0.08)
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--cream);cursor:none;overflow-x:hidden}
+
+/* LOADER */
+/* CSS fallback: dismisses loader after 3.2s even if JS is blocked */
+@keyframes loaderOut{to{opacity:0;visibility:hidden;pointer-events:none}}
+#loader{position:fixed;inset:0;z-index:9000;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;transition:opacity .8s,visibility .8s;animation:loaderOut .8s 3.2s ease forwards}
+#loader.out{opacity:0;visibility:hidden;pointer-events:none;animation:none}
+.ld-row{display:flex;overflow:hidden}
+.ld-row span{display:inline-block;font-family:'DM Serif Display',serif;font-size:clamp(2.5rem,5vw,5rem);letter-spacing:.12em;opacity:0;transform:translateY(70px);animation:ldup .55s cubic-bezier(.16,1,.3,1) forwards}
+.ld-row span:nth-child(1) {animation-delay:.05s}
+.ld-row span:nth-child(2) {animation-delay:.10s}
+.ld-row span:nth-child(3) {animation-delay:.15s}
+.ld-row span:nth-child(4) {animation-delay:.20s}
+.ld-row span:nth-child(5) {animation-delay:.25s}
+.ld-row span:nth-child(6) {animation-delay:.28s}
+.ld-row span:nth-child(7) {animation-delay:.31s}
+.ld-row span:nth-child(8) {animation-delay:.34s}
+.ld-row span:nth-child(9) {animation-delay:.37s}
+.ld-row span:nth-child(10){animation-delay:.40s}
+.ld-row span:nth-child(11){animation-delay:.43s}
+@keyframes ldup{to{opacity:1;transform:translateY(0)}}
+.ld-sub{font-family:'DM Serif Display',serif;font-style:italic;font-size:clamp(.9rem,1.5vw,1.3rem);color:var(--glt);opacity:0;animation:fi .5s .5s ease forwards}
+.ld-bar{width:100px;height:1px;background:var(--bdr);overflow:hidden;opacity:0;animation:fi .3s .55s ease forwards}
+.ld-fill{height:100%;background:var(--gold);transform:scaleX(0);transform-origin:left;animation:barfill 1.5s .65s ease forwards}
+@keyframes barfill{to{transform:scaleX(1)}}
+@keyframes fi{to{opacity:1}}
+
+/* PROGRESS BAR */
+#prog{position:fixed;top:0;left:0;z-index:8000;height:2px;background:var(--gold);width:0;pointer-events:none;transition:width .08s linear}
+
+/* CURSOR */
+#cdot{width:5px;height:5px;background:var(--glt);border-radius:50%;position:fixed;pointer-events:none;z-index:7000;transform:translate(-50%,-50%);transition:opacity .2s}
+#cring{width:40px;height:40px;border:1px solid rgba(200,125,47,.55);border-radius:50%;position:fixed;pointer-events:none;z-index:6999;transform:translate(-50%,-50%);transition:width .35s cubic-bezier(.16,1,.3,1),height .35s cubic-bezier(.16,1,.3,1),border-color .3s}
+body.hov #cring{width:68px;height:68px;border-color:var(--glt)}
+body.hov #cdot{opacity:0}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:2rem 3rem;border-bottom:1px solid transparent;transition:padding .4s,background .4s,border-color .4s}
+nav.pin{padding:1.1rem 3rem;background:rgba(10,8,6,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-color:var(--bdr)}
+.logo{font-family:'DM Serif Display',serif;font-size:1.25rem;color:var(--cream);text-decoration:none}
+.logo em{font-style:italic;color:var(--glt)}
+.nav-r{display:flex;align-items:center;gap:2.5rem}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-size:.72rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:rgba(243,236,224,.45);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--cream)}
+.mbtn{position:relative;display:inline-flex;align-items:center;justify-content:center;padding:.62rem 1.55rem;border:1px solid var(--gold);color:var(--glt);font-family:'Inter',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;cursor:none;overflow:hidden;transition:color .3s}
+.mbtn::before{content:'';position:absolute;inset:0;background:var(--gold);transform:translateY(101%);transition:transform .32s cubic-bezier(.16,1,.3,1)}
+.mbtn span{position:relative;z-index:1}
+.mbtn:hover::before{transform:translateY(0)}
+.mbtn:hover{color:var(--bg)}
+
+/* HERO */
+#hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 3rem;overflow:hidden}
+#heroCanvas{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.hero-in{position:relative;z-index:2}
+.hero-tag{font-size:.7rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1.8rem;opacity:0;animation:fi .6s 2.5s ease forwards}
+.hero-t1{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(6rem,15vw,17rem);
+  line-height:.88;letter-spacing:-.02em;
+  background:#c87d2f url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=2000&q=90') center 40%/cover;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  user-select:none;display:block
+}
+.hero-t1:nth-of-type(1){opacity:0;animation:fi .9s 2.7s ease forwards}
+.hero-t1:nth-of-type(2){opacity:0;animation:fi .9s 3.1s ease forwards}
+.hero-t1:nth-of-type(3){opacity:0;animation:fi .9s 3.1s ease forwards}
+.hero-t2{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(6rem,15vw,17rem);
+  line-height:.88;letter-spacing:-.02em;
+  color:transparent;-webkit-text-stroke:1px rgba(243,236,224,.12);
+  opacity:0;animation:fi .9s 2.9s ease forwards;
+  user-select:none;display:block
+}
+.hero-bot{margin-top:2.5rem;display:flex;align-items:center;gap:3rem;flex-wrap:wrap;opacity:0;animation:fi .7s 3.1s ease forwards}
+.hero-desc{font-size:.9rem;line-height:1.8;color:rgba(243,236,224,.45);max-width:300px}
+.hero-scroll{display:flex;align-items:center;gap:.75rem;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(243,236,224,.25)}
+.scroll-line{width:36px;height:1px;background:rgba(243,236,224,.15);position:relative;overflow:hidden;flex-shrink:0}
+.scroll-line::after{content:'';position:absolute;inset:0;background:var(--gold);animation:sl 1.6s 3.6s ease-in-out infinite}
+@keyframes sl{0%{transform:translateX(-100%)}50%{transform:translateX(0)}100%{transform:translateX(100%)}}
+
+/* INTRO */
+#intro{display:grid;grid-template-columns:1fr 1fr;gap:5rem;padding:6rem 3rem;border-top:1px solid var(--bdr)}
+.intro-copy{font-size:1rem;line-height:1.85;color:rgba(243,236,224,.5);align-self:center}
+.intro-copy strong{display:block;font-family:'DM Serif Display',serif;font-size:1.65rem;font-weight:400;line-height:1.3;color:var(--cream);margin-bottom:1.2rem}
+.intro-stats{display:flex;flex-direction:column;gap:2rem}
+.istat{display:flex;align-items:baseline;gap:1rem;border-bottom:1px solid var(--bdr);padding-bottom:2rem}
+.istat:last-child{border:none;padding-bottom:0}
+.istat-num{font-family:'DM Serif Display',serif;font-size:clamp(3rem,5.5vw,5.5rem);line-height:1;color:var(--cream)}
+.istat-suf{color:var(--glt)}
+.istat-lbl{font-size:.78rem;color:var(--mut);line-height:1.55}
+
+/* MARQUEE */
+.mq{overflow:hidden;border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);background:rgba(200,125,47,.04);padding:.85rem 0}
+.mq-t{display:flex;white-space:nowrap;animation:mqa 30s linear infinite}
+@keyframes mqa{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.mq-i{display:inline-flex;align-items:center;gap:1.2rem;padding:0 1.5rem;font-size:.68rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:rgba(243,236,224,.28)}
+.mq-d{width:3px;height:3px;border-radius:50%;background:var(--gold);flex-shrink:0}
+
+/* PROJECTS -- sticky scroll
+   isolation:isolate creates a stacking context so the sticky child
+   cannot bleed over sections above or below */
+#proj-wrap{position:relative;height:500vh;isolation:isolate}
+#proj-sticky{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--bg)}
+.pimg{position:absolute;inset:0;opacity:0;transition:opacity .75s ease}
+.pimg.on{opacity:1}
+.pimg img{width:100%;height:100%;object-fit:cover;display:block}
+.pimg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,6,.88) 0%,rgba(10,8,6,.15) 55%,transparent 100%)}
+.pinfo{position:absolute;bottom:4rem;left:3rem;z-index:2;opacity:0;transform:translateY(18px);transition:opacity .5s,transform .5s}
+.pinfo.on{opacity:1;transform:translateY(0)}
+.p-count{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem}
+.p-name{font-family:'DM Serif Display',serif;font-size:clamp(2rem,5vw,4.5rem);line-height:1.05;margin-bottom:.5rem}
+.p-meta{font-size:.8rem;color:rgba(243,236,224,.5);letter-spacing:.05em}
+.p-dots{position:absolute;right:3rem;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:.6rem;z-index:2}
+.pdot{width:4px;height:4px;border-radius:2px;background:rgba(243,236,224,.2);transition:height .3s,background .3s;cursor:pointer}
+.pdot.on{height:24px;background:var(--gold)}
+
+/* SERVICES */
+#services{padding:6rem 3rem;border-top:1px solid var(--bdr);background:var(--bg);position:relative;z-index:1}
+.svc-hd{display:grid;grid-template-columns:1fr 1fr;gap:4rem;margin-bottom:4rem;align-items:end}
+.sec-tag{font-size:.7rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem}
+.sec-title{font-family:'DM Serif Display',serif;font-size:clamp(2rem,4vw,3.4rem);line-height:1.1}
+.sec-title em{font-style:italic;color:var(--glt)}
+.svc-intro{font-size:.95rem;line-height:1.85;color:rgba(243,236,224,.42);max-width:400px}
+.svc-list{position:relative}
+.svc-hover{position:absolute;right:0;top:0;bottom:0;width:44%;opacity:0;transform:translateX(16px);transition:opacity .4s,transform .4s;pointer-events:none;z-index:0}
+.svc-hover img{width:100%;height:100%;object-fit:cover;display:block}
+.svc-row{display:flex;justify-content:space-between;align-items:center;padding:1.6rem 0;border-top:1px solid var(--bdr);cursor:none;position:relative;z-index:1;transition:border-color .2s}
+.svc-row:last-child{border-bottom:1px solid var(--bdr)}
+.svc-row:hover{border-color:rgba(200,125,47,.4)}
+.svc-left{display:flex;align-items:center;gap:1.5rem}
+.svc-nn{font-size:.62rem;color:var(--mut);letter-spacing:.1em;width:20px}
+.svc-nm{font-family:'DM Serif Display',serif;font-size:clamp(1.2rem,2.5vw,1.8rem);transition:color .2s}
+.svc-row:hover .svc-nm{color:var(--glt)}
+.svc-arr{font-size:1.1rem;color:var(--gold);opacity:0;transform:translateX(-6px);transition:opacity .25s,transform .25s}
+.svc-row:hover .svc-arr{opacity:1;transform:translateX(0)}
+
+/* TESTIMONIAL */
+#testi{padding:8rem 3rem;border-top:1px solid var(--bdr);position:relative;overflow:hidden;background:var(--bg)}
+#testi::before{content:'\201C';position:absolute;top:-2rem;left:1.5rem;font-family:'DM Serif Display',serif;font-size:30rem;line-height:1;color:rgba(200,125,47,.035);pointer-events:none;user-select:none}
+.testi-c{max-width:860px;margin:0 auto;text-align:center;position:relative;z-index:1}
+.t-stars{font-size:.85rem;letter-spacing:.3em;color:var(--glt);margin-bottom:2.2rem}
+.t-q{font-family:'DM Serif Display',serif;font-style:italic;font-size:clamp(1.35rem,2.8vw,2.2rem);line-height:1.5;color:var(--cream);margin-bottom:2.5rem;transition:opacity .4s}
+.t-n{font-weight:600;font-size:.85rem;letter-spacing:.05em}
+.t-l{font-size:.75rem;color:var(--mut);margin-top:.2rem;letter-spacing:.08em}
+.t-dots{display:flex;justify-content:center;gap:.5rem;margin-top:2rem}
+.tdot{height:5px;width:5px;border-radius:3px;background:var(--bdr);cursor:pointer;transition:width .3s,background .3s}
+.tdot.on{width:28px;background:var(--gold)}
+
+/* PROCESS */
+#process{padding:6rem 3rem;border-top:1px solid var(--bdr);background:var(--bg)}
+.proc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;margin-top:3.5rem}
+.proc-step{border-top:1px solid var(--bdr);padding-top:1.5rem}
+.proc-n{font-family:'DM Serif Display',serif;font-size:3rem;line-height:1;color:rgba(243,236,224,.07);margin-bottom:1rem}
+.proc-title{font-family:'DM Serif Display',serif;font-size:1.2rem;margin-bottom:.7rem}
+.proc-desc{font-size:.83rem;line-height:1.75;color:rgba(243,236,224,.42)}
+
+/* CONTACT */
+#contact{display:grid;grid-template-columns:1fr 1fr;gap:6rem;padding:6rem 3rem;border-top:1px solid var(--bdr);background:var(--bg)}
+.ct-lead{font-size:.92rem;line-height:1.85;color:rgba(243,236,224,.42);max-width:360px;margin-bottom:2.5rem}
+.ct-row{display:flex;gap:1rem;align-items:flex-start;margin-bottom:1.2rem}
+.ct-ic{width:36px;height:36px;flex-shrink:0;border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-size:.85rem;color:var(--gold)}
+.ct-lb{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin-bottom:.15rem}
+.ct-vl{font-size:.9rem;color:var(--cream)}
+.cf{display:flex;flex-direction:column;gap:1rem}
+.cf-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.fg{display:flex;flex-direction:column;gap:.4rem}
+label{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+input,select,textarea{background:rgba(243,236,224,.03);border:1px solid var(--bdr);color:var(--cream);padding:.82rem 1rem;font-family:'Inter',sans-serif;font-size:.88rem;outline:none;cursor:none;transition:border-color .2s;width:100%}
+input::placeholder,textarea::placeholder{color:rgba(107,96,85,.65)}
+input:focus,select:focus,textarea:focus{border-color:var(--gold)}
+select option{background:#0a0806;color:var(--cream)}
+textarea{resize:vertical;min-height:100px}
+.cf-btn{background:var(--gold);color:var(--bg);border:none;padding:1rem 2rem;font-family:'Inter',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;cursor:none;transition:background .2s,transform .2s;align-self:flex-start;display:inline-block}
+.cf-btn:hover{background:var(--glt);transform:translateY(-2px)}
+
+/* FOOTER */
+footer{border-top:1px solid var(--bdr);padding:2.5rem 3rem 3.5rem;overflow:hidden;background:var(--bg)}
+.ft{display:flex;justify-content:space-between;align-items:center;padding-bottom:2.5rem;border-bottom:1px solid var(--bdr);margin-bottom:2rem;flex-wrap:wrap;gap:1rem}
+.fl{display:flex;gap:1.8rem}
+.fl a{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);text-decoration:none;transition:color .2s}
+.fl a:hover{color:var(--glt)}
+.fc{font-size:.7rem;color:var(--mut)}
+.foot-mega{font-family:'DM Serif Display',serif;font-size:clamp(4rem,15vw,17rem);line-height:.88;letter-spacing:-.02em;color:transparent;-webkit-text-stroke:1px rgba(243,236,224,.07);user-select:none;white-space:nowrap}
+
+/* SCROLL REVEAL */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .75s ease,transform .75s ease}
+.rv.in{opacity:1;transform:none}
+
+/* MOBILE */
+@media(max-width:820px){
+  body{cursor:auto}
+  #cdot,#cring{display:none}
+  nav{padding:1.1rem 1.5rem}
+  nav.pin{padding:.9rem 1.5rem}
+  .nav-links{display:none}
+  #hero{padding:0 1.5rem}
+  .hero-t1,.hero-t2{font-size:clamp(4.5rem,20vw,9rem)}
+  .hero-bot{flex-direction:column;align-items:flex-start;gap:1.5rem}
+  #intro{grid-template-columns:1fr;gap:3rem;padding:4rem 1.5rem}
+  #proj-wrap{height:450vh}
+  .pinfo{left:1.5rem;bottom:2rem}
+  .p-dots{right:1.5rem}
+  #services{padding:4rem 1.5rem}
+  .svc-hd{grid-template-columns:1fr;gap:1.5rem;margin-bottom:2rem}
+  .svc-hover{display:none}
+  #testi{padding:5rem 1.5rem}
+  #process{padding:4rem 1.5rem}
+  .proc-grid{grid-template-columns:1fr 1fr}
+  #contact{grid-template-columns:1fr;padding:4rem 1.5rem;gap:3rem}
+  .cf-row{grid-template-columns:1fr}
+  footer{padding:2rem 1.5rem 2.5rem}
+  .ft{flex-direction:column;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="ld-row">
+    <span>R</span><span>I</span><span>G</span><span>H</span><span>T</span><span>&nbsp;</span><span>P</span><span>R</span><span>I</span><span>C</span><span>E</span>
+  </div>
+  <div class="ld-sub">Builders</div>
+  <div class="ld-bar"><div class="ld-fill"></div></div>
+</div>
+
+<div id="prog"></div>
+<div id="cdot"></div>
+<div id="cring"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#hero" class="logo">Right Price <em>Builders</em></a>
+  <div class="nav-r">
+    <ul class="nav-links">
+      <li><a href="#proj-wrap">Work</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#testi">Reviews</a></li>
+    </ul>
+    <a href="#contact" class="mbtn"><span>Get a Quote</span></a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-in">
+    <div class="hero-tag">Master Builders &nbsp;&middot;&nbsp; Est. 2005, Yorkshire</div>
+    <span class="hero-t1">RIGHT</span>
+    <span class="hero-t2">PRICE</span>
+    <span class="hero-t1">BUILDERS</span>
+    <div class="hero-bot">
+      <p class="hero-desc">Extensions, renovations and quality building work across Yorkshire. Done right. Built to last a lifetime.</p>
+      <a href="#contact" class="mbtn"><span>Free Consultation</span></a>
+      <div class="hero-scroll"><div class="scroll-line"></div>Scroll</div>
+    </div>
+  </div>
+</section>
+
+<!-- INTRO + STATS -->
+<section id="intro">
+  <div class="rv">
+    <div class="intro-copy">
+      <strong>Two decades of building. One standard of work.</strong>
+      We&rsquo;re a small, Yorkshire-based team who believe quality is never an accident &mdash; it&rsquo;s the result of planning, skill, and a genuine care for what we build. Every project gets the same attention. Yours included.
+    </div>
+  </div>
+  <div class="intro-stats rv">
+    <div class="istat">
+      <div class="istat-num"><span class="cnt" data-to="20">0</span><span class="istat-suf">+</span></div>
+      <div class="istat-lbl">Years of experience<br>across Yorkshire</div>
+    </div>
+    <div class="istat">
+      <div class="istat-num"><span class="cnt" data-to="850">0</span><span class="istat-suf">+</span></div>
+      <div class="istat-lbl">Projects completed<br>for happy clients</div>
+    </div>
+    <div class="istat">
+      <div class="istat-num">5<span class="istat-suf">&#9733;</span></div>
+      <div class="istat-lbl">Average rating<br>on Checkatrade</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq">
+  <div class="mq-t">
+    <span class="mq-i"><span class="mq-d"></span>Bespoke Kitchens</span>
+    <span class="mq-i"><span class="mq-d"></span>Fitted Wardrobes</span>
+    <span class="mq-i"><span class="mq-d"></span>Hardwood Floors</span>
+    <span class="mq-i"><span class="mq-d"></span>Staircases</span>
+    <span class="mq-i"><span class="mq-d"></span>Alcove Units</span>
+    <span class="mq-i"><span class="mq-d"></span>Door Hanging</span>
+    <span class="mq-i"><span class="mq-d"></span>Garden Offices</span>
+    <span class="mq-i"><span class="mq-d"></span>Bespoke Furniture</span>
+    <span class="mq-i"><span class="mq-d"></span>Bespoke Kitchens</span>
+    <span class="mq-i"><span class="mq-d"></span>Fitted Wardrobes</span>
+    <span class="mq-i"><span class="mq-d"></span>Hardwood Floors</span>
+    <span class="mq-i"><span class="mq-d"></span>Staircases</span>
+    <span class="mq-i"><span class="mq-d"></span>Alcove Units</span>
+    <span class="mq-i"><span class="mq-d"></span>Door Hanging</span>
+    <span class="mq-i"><span class="mq-d"></span>Garden Offices</span>
+    <span class="mq-i"><span class="mq-d"></span>Bespoke Furniture</span>
+  </div>
+</div>
+
+<!-- PROJECTS sticky scroll -->
+<div id="proj-wrap">
+  <div id="proj-sticky">
+    <div class="pimg on" id="pi0"><img src="https://media.base44.com/images/public/6a1e27eeaadb1b2410948242/7f5ecaea7_WhatsAppImage2026-06-05at225010.jpg" alt="Oak Kitchen" loading="lazy"/></div>
+    <div class="pimg"    id="pi1"><img src="https://media.base44.com/images/public/6a1e27eeaadb1b2410948242/dac395f32_WhatsAppImage2026-06-06at011841.jpg" alt="Modern Extension"  loading="lazy"/></div>
+    <div class="pimg"    id="pi2"><img src="https://images.unsplash.com/photo-1536376072261-38c75010e6c9?w=1600&q=85" alt="Staircase" loading="lazy"/></div>
+    <div class="pimg"    id="pi3"><img src="https://media.base44.com/images/public/6a1e27eeaadb1b2410948242/dac395f32_WhatsAppImage2026-06-06at011841.jpg" alt="Modern Extension" loading="lazy"/></div>
+    <div class="pimg"    id="pi4"><img src="https://media.base44.com/images/public/6a1e27eeaadb1b2410948242/328b01641_WhatsAppImage2026-06-06at0118411.jpg" alt="Fitted Wardrobes" loading="lazy"/></div>
+    <div class="pimg"    id="pi5"><img src="https://media.base44.com/images/public/6a1e27eeaadb1b2410948242/dac395f32_WhatsAppImage2026-06-06at011841.jpg" alt="Modern Extension" loading="lazy"/></div>
+    <div class="pinfo on" id="pf0">
+      <div class="p-count">01 / 06 &nbsp;&middot;&nbsp; Our Work</div>
+      <div class="p-name">Solid Oak Kitchen</div>
+      <div class="p-meta">Leeds, West Yorkshire &nbsp;&middot;&nbsp; 2025</div>
+    </div>
+    <div class="pinfo" id="pf1">
+      <div class="p-count">02 / 06 &nbsp;&middot;&nbsp; Our Work</div>
+      <div class="p-name">Modern Extension</div>
+      <div class="p-meta">West Yorkshire &nbsp;&middot;&nbsp; 2025</div>
+    </div>
+    <div class="pinfo" id="pf2">
+      <div class="p-count">03 / 06 &nbsp;&middot;&nbsp; Our Work</div>
+      <div class="p-name">Hardwood Staircase</div>
+      <div class="p-meta">Bradford, West Yorkshire &nbsp;&middot;&nbsp; 2024</div>
+    </div>
+    <div class="pinfo" id="pf3">
+      <div class="p-count">04 / 06 &nbsp;&middot;&nbsp; Our Work</div>
+      <div class="p-name">Modern Extension</div>
+      <div class="p-meta">West Yorkshire &nbsp;&middot;&nbsp; 2025</div>
+    </div>
+    <div class="pinfo" id="pf4">
+      <div class="p-count">05 / 06 &nbsp;&middot;&nbsp; Our Work</div>
+      <div class="p-name">Fitted Wardrobes</div>
+      <div class="p-meta">Yorkshire &nbsp;&middot;&nbsp; 2025</div>
+    </div>
+    <div class="pinfo" id="pf5">
+      <div class="p-count">06 / 06 &nbsp;&middot;&nbsp; Our Work</div>
+      <div class="p-name">Bi-Fold Extension</div>
+      <div class="p-meta">West Yorkshire &nbsp;&middot;&nbsp; 2025</div>
+    </div>
+    <div class="p-dots">
+      <div class="pdot on" id="pd0"></div>
+      <div class="pdot"    id="pd1"></div>
+      <div class="pdot"    id="pd2"></div>
+      <div class="pdot"    id="pd3"></div>
+      <div class="pdot"    id="pd4"></div>
+      <div class="pdot"    id="pd5"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="svc-hd rv">
+    <div>
+      <div class="sec-tag">What We Do</div>
+      <h2 class="sec-title">Services built<br><em>around you.</em></h2>
+    </div>
+    <p class="svc-intro">No subcontractors. No shortcuts. An experienced team who take real pride in the work &mdash; from first visit to final fit.</p>
+  </div>
+  <div class="svc-list">
+    <div class="svc-hover" id="svcHov"><img id="svcHovImg" src="" alt=""/></div>
+    <div class="svc-row" data-img="https://media.base44.com/images/public/6a1e27eeaadb1b2410948242/7f5ecaea7_WhatsAppImage2026-06-05at225010.jpg" onmouseenter="showSvc(this)" onmouseleave="hideSvc()">
+      <div class="svc-left"><span class="svc-nn">01</span><span class="svc-nm">Bespoke Kitchens</span></div><span class="svc-arr">&#8594;</span>
+    </div>
+    <div class="svc-row" data-img="https://media.base44.com/images/public/6a1e27eeaadb1b2410948242/407b33dc5_WhatsAppImage2026-06-06at011841.jpg" onmouseenter="showSvc(this)" onmouseleave="hideSvc()">
+      <div class="svc-left"><span class="svc-nn">02</span><span class="svc-nm">Modern Extensions</span></div><span class="svc-arr">&#8594;</span>
+    </div>
+    <div class="svc-row" data-img="https://images.unsplash.com/photo-1536376072261-38c75010e6c9?w=900&q=80" onmouseenter="showSvc(this)" onmouseleave="hideSvc()">
+      <div class="svc-left"><span class="svc-nn">03</span><span class="svc-nm">Staircases</span></div><span class="svc-arr">&#8594;</span>
+    </div>
+    <div class="svc-row" data-img="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=900&q=80" onmouseenter="showSvc(this)" onmouseleave="hideSvc()">
+      <div class="svc-left"><span class="svc-nn">04</span><span class="svc-nm">Hardwood Flooring</span></div><span class="svc-arr">&#8594;</span>
+    </div>
+    <div class="svc-row" data-img="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=900&q=80" onmouseenter="showSvc(this)" onmouseleave="hideSvc()">
+      <div class="svc-left"><span class="svc-nn">05</span><span class="svc-nm">Doors, Windows &amp; More</span></div><span class="svc-arr">&#8594;</span>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section id="testi">
+  <div class="testi-c rv">
+    <div class="t-stars">&#9733; &nbsp; &#9733; &nbsp; &#9733; &nbsp; &#9733; &nbsp; &#9733;</div>
+    <p class="t-q" id="tq">&ldquo;Lee built us a stunning bespoke kitchen from scratch. The attention to detail was extraordinary &mdash; every joint, every finish absolutely perfect. We&rsquo;ve had so many compliments from visitors. Worth every single penny.&rdquo;</p>
+    <div class="t-n" id="tn">Sarah Holt</div>
+    <div class="t-l" id="tl">Leeds, West Yorkshire</div>
+    <div class="t-dots">
+      <div class="tdot on" onclick="showT(0)"></div>
+      <div class="tdot"    onclick="showT(1)"></div>
+      <div class="tdot"    onclick="showT(2)"></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="rv">
+    <div class="sec-tag">How It Works</div>
+    <h2 class="sec-title">Simple from start<br>to <em>finish.</em></h2>
+  </div>
+  <div class="proc-grid">
+    <div class="proc-step rv">
+      <div class="proc-n">01</div>
+      <div class="proc-title">Free Consultation</div>
+      <p class="proc-desc">We visit, listen, measure. No charge, no obligation &mdash; just an honest conversation about your vision.</p>
+    </div>
+    <div class="proc-step rv">
+      <div class="proc-n">02</div>
+      <div class="proc-title">Detailed Quote</div>
+      <p class="proc-desc">A clear written quote with a full breakdown of materials and labour. No hidden extras, ever.</p>
+    </div>
+    <div class="proc-step rv">
+      <div class="proc-n">03</div>
+      <div class="proc-title">Crafting &amp; Build</div>
+      <p class="proc-desc">We get to work in our workshop and on-site, keeping you informed at every stage of the project.</p>
+    </div>
+    <div class="proc-step rv">
+      <div class="proc-n">04</div>
+      <div class="proc-title">Final Handover</div>
+      <p class="proc-desc">We won&rsquo;t leave until you&rsquo;re fully satisfied. All work carries a 5-year workmanship guarantee.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="rv">
+    <div class="sec-tag">Get In Touch</div>
+    <h2 class="sec-title" style="margin-bottom:1.2rem">Let&rsquo;s talk about<br><em>your project.</em></h2>
+    <p class="ct-lead">We visit, listen and quote &mdash; all for free. No pressure, no jargon. Just honest advice about what you need.</p>
+    <div class="ct-row"><div class="ct-ic">&#128222;</div><div><div class="ct-lb">Phone</div><div class="ct-vl">07700 900 123</div></div></div>
+    <div class="ct-row"><div class="ct-ic">&#9993;</div><div><div class="ct-lb">Email</div><div class="ct-vl">lee@rightpricebuilders.co.uk</div></div></div>
+    <div class="ct-row"><div class="ct-ic">&#128205;</div><div><div class="ct-lb">Area Covered</div><div class="ct-vl">Leeds &middot; Harrogate &middot; York &middot; Bradford</div></div></div>
+    <div class="ct-row"><div class="ct-ic">&#128336;</div><div><div class="ct-lb">Hours</div><div class="ct-vl">Mon&ndash;Fri 7:30am&ndash;6pm &nbsp;&middot;&nbsp; Sat 8am&ndash;1pm</div></div></div>
+  </div>
+  <form class="cf rv" onsubmit="sendForm(event)">
+    <div class="cf-row">
+      <div class="fg"><label>First Name</label><input type="text" placeholder="John" required/></div>
+      <div class="fg"><label>Last Name</label><input type="text" placeholder="Smith" required/></div>
+    </div>
+    <div class="cf-row">
+      <div class="fg"><label>Phone</label><input type="tel" placeholder="07700 000 000"/></div>
+      <div class="fg"><label>Email</label><input type="email" placeholder="john@example.com" required/></div>
+    </div>
+    <div class="fg">
+      <label>Service Required</label>
+      <select>
+        <option value="">Select a service&hellip;</option>
+        <option>Bespoke Kitchen</option>
+        <option>Fitted Furniture</option>
+        <option>Staircase</option>
+        <option>Flooring</option>
+        <option>Doors &amp; Windows</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="fg"><label>Project Details</label><textarea placeholder="Describe your project, timescales, any details&#8230;"></textarea></div>
+    <button type="submit" class="cf-btn">Send Enquiry &#8594;</button>
+  </form>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft">
+    <a href="#hero" class="logo">Right Price <em>Builders</em></a>
+    <div class="fl">
+      <a href="#proj-wrap">Work</a>
+      <a href="#services">Services</a>
+      <a href="#testi">Reviews</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="fc">&copy; 2026 Right Price Builders. All rights reserved.</div>
+  </div>
+  <div class="foot-mega">BUILDERS</div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+
+  /* LOADER */
+  setTimeout(function(){ document.getElementById('loader').classList.add('out'); }, 2400);
+
+  /* CURSOR */
+  var dot  = document.getElementById('cdot');
+  var ring = document.getElementById('cring');
+  var mx=0, my=0, rx=0, ry=0;
+
+  document.addEventListener('mousemove', function(e){
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx + 'px';
+    dot.style.top  = my + 'px';
+  });
+
+  (function cursorLoop(){
+    rx += (mx - rx) * 0.1;
+    ry += (my - ry) * 0.1;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(cursorLoop);
+  })();
+
+  document.querySelectorAll('a, button, .tdot, .svc-row, .mbtn, .pdot').forEach(function(el){
+    el.addEventListener('mouseenter', function(){ document.body.classList.add('hov'); });
+    el.addEventListener('mouseleave', function(){ document.body.classList.remove('hov'); });
+  });
+
+  /* NAV + PROGRESS */
+  var nav  = document.getElementById('nav');
+  var prog = document.getElementById('prog');
+
+  function getScrollY(){
+    return window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+  }
+
+  function onScroll(){
+    var sy = getScrollY();
+    nav.classList.toggle('pin', sy > 60);
+    var maxScroll = document.body.scrollHeight - window.innerHeight;
+    prog.style.width = (maxScroll > 0 ? (sy / maxScroll * 100) : 0) + '%';
+    updateProj();
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  /* CANVAS PARTICLES */
+  var cv  = document.getElementById('heroCanvas');
+  var ctx = cv.getContext('2d');
+
+  function resizeCanvas(){
+    cv.width  = window.innerWidth;
+    cv.height = document.getElementById('hero').offsetHeight || window.innerHeight;
+  }
+  window.addEventListener('load',   resizeCanvas);
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  var chips = [];
+  for(var i = 0; i < 55; i++){
+    chips.push({
+      x:  Math.random() * window.innerWidth,
+      y:  Math.random() * window.innerHeight,
+      vx: (Math.random() - 0.5) * 0.25,
+      vy: -(Math.random() * 0.35 + 0.08),
+      w:  Math.random() * 6 + 2,
+      h:  Math.random() * 2 + 0.8,
+      o:  Math.random() * 0.12 + 0.02,
+      r:  Math.random() * Math.PI * 2,
+      vr: 0.008
+    });
+  }
+
+  (function drawChips(){
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    for(var i = 0; i < chips.length; i++){
+      var p = chips[i];
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.r);
+      ctx.globalAlpha = p.o;
+      ctx.fillStyle   = '#c87d2f';
+      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+      ctx.restore();
+      p.x += p.vx; p.y += p.vy; p.r += p.vr;
+      if(p.y < -5){ p.y = cv.height + 5; p.x = Math.random() * cv.width; }
+    }
+    requestAnimationFrame(drawChips);
+  })();
+
+  /* SCROLL REVEAL */
+  var revObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.rv').forEach(function(el){ revObs.observe(el); });
+
+  /* COUNTER ANIMATION */
+  function animCount(el){
+    var target = parseInt(el.getAttribute('data-to'), 10);
+    var dur    = 1600;
+    var start  = performance.now();
+    (function step(now){
+      var p    = Math.min((now - start) / dur, 1);
+      var ease = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(ease * target);
+      if(p < 1) requestAnimationFrame(step);
+    })(start);
+  }
+  var cntObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ animCount(e.target); cntObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.cnt').forEach(function(el){ cntObs.observe(el); });
+
+  /* STICKY PROJECTS */
+  var pw     = document.getElementById('proj-wrap');
+  var pimgs  = [document.getElementById('pi0'), document.getElementById('pi1'), document.getElementById('pi2'), document.getElementById('pi3'), document.getElementById('pi4'), document.getElementById('pi5')];
+  var pinfos = [document.getElementById('pf0'), document.getElementById('pf1'), document.getElementById('pf2'), document.getElementById('pf3'), document.getElementById('pf4'), document.getElementById('pf5')];
+  var pdots  = [document.getElementById('pd0'), document.getElementById('pd1'), document.getElementById('pd2'), document.getElementById('pd3'), document.getElementById('pd4'), document.getElementById('pd5')];
+  var curP   = 0;
+
+  function setP(i){
+    if(i === curP) return;
+    curP = i;
+    pimgs.forEach( function(el, j){ el.classList.toggle('on', j === i); });
+    pinfos.forEach(function(el, j){ el.classList.toggle('on', j === i); });
+    pdots.forEach( function(el, j){ el.classList.toggle('on', j === i); });
+  }
+
+  function updateProj(){
+    if(!pw) return;
+    var rect     = pw.getBoundingClientRect();
+    var scrolled = -rect.top;
+    var total    = pw.offsetHeight - window.innerHeight;
+    /* clamp: before section show 0, after section show 5 */
+    if(scrolled <= 0){ setP(0); return; }
+    if(scrolled >= total){ setP(5); return; }
+    var p = scrolled / total;
+    setP(p < 0.17 ? 0 : p < 0.34 ? 1 : p < 0.51 ? 2 : p < 0.68 ? 3 : p < 0.84 ? 4 : 5);
+  }
+  setP(0);
+
+  /* SERVICE HOVER IMAGE */
+  var svcHov    = document.getElementById('svcHov');
+  var svcHovImg = document.getElementById('svcHovImg');
+
+  window.showSvc = function(el){
+    svcHovImg.src          = el.getAttribute('data-img');
+    svcHov.style.opacity   = '1';
+    svcHov.style.transform = 'translateX(0)';
+  };
+  window.hideSvc = function(){
+    svcHov.style.opacity   = '0';
+    svcHov.style.transform = 'translateX(16px)';
+  };
+
+  /* MAGNETIC BUTTONS */
+  document.querySelectorAll('.mbtn').forEach(function(btn){
+    btn.addEventListener('mousemove', function(e){
+      var r  = btn.getBoundingClientRect();
+      var dx = e.clientX - (r.left + r.width  / 2);
+      var dy = e.clientY - (r.top  + r.height / 2);
+      btn.style.transform  = 'translate(' + (dx * 0.28) + 'px,' + (dy * 0.28) + 'px)';
+      btn.style.transition = '';
+    });
+    btn.addEventListener('mouseleave', function(){
+      btn.style.transition = 'transform .5s cubic-bezier(.16,1,.3,1)';
+      btn.style.transform  = 'translate(0,0)';
+    });
+  });
+
+  /* TESTIMONIALS */
+  var tData = [
+    { q: '"Lee built us a stunning bespoke kitchen from scratch. The attention to detail was extraordinary — every joint, every finish absolutely perfect. We've had so many compliments from visitors. Worth every single penny."', n: 'Sarah Holt',            l: 'Leeds, West Yorkshire'      },
+    { q: '"Hired Lee to renovate our staircase — new spindles, new handrail, the lot. Punctual, tidy, and the result looks absolutely brilliant. Would recommend without hesitation."',                                                  n: 'Mark Ramsden',          l: 'Harrogate, North Yorkshire' },
+    { q: '"Fitted wardrobes in two bedrooms and an alcove bookcase in the lounge. On budget, finished ahead of schedule. Brilliant craftsman and a real gentleman."',                                                                          n: 'Julie & Paul Atkinson', l: 'York, North Yorkshire'      }
+  ];
+  var cur = 0;
+
+  window.showT = function(i){
+    var q = document.getElementById('tq');
+    var n = document.getElementById('tn');
+    var l = document.getElementById('tl');
+    q.style.opacity = '0';
+    setTimeout(function(){
+      cur = i;
+      q.textContent = tData[i].q;
+      n.textContent = tData[i].n;
+      l.textContent = tData[i].l;
+      q.style.opacity = '1';
+    }, 350);
+    document.querySelectorAll('.tdot').forEach(function(d, j){
+      d.classList.toggle('on', j === i);
+    });
+  };
+
+  setInterval(function(){ showT((cur + 1) % 3); }, 6000);
+
+  /* FORM */
+  window.sendForm = function(e){
+    e.preventDefault();
+    var btn = e.target.querySelector('.cf-btn');
+    btn.textContent      = 'Enquiry Sent!';
+    btn.style.background = '#2a7a38';
+    btn.disabled         = true;
+    setTimeout(function(){
+      btn.textContent      = 'Send Enquiry →';
+      btn.style.background = '';
+      btn.disabled         = false;
+      e.target.reset();
+    }, 4000);
+  };
+
+})();
+</script>
+</body>
+</html>

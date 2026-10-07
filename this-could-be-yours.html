@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THIS COULD BE YOUR WEBSITE // HONEST AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0b;
+    --bg2:#0f0f12;
+    --panel:rgba(22,22,26,0.55);
+    --accent:#FF6B1A;
+    --accent2:#E8560A;
+    --amber:#ffb46b;
+    --teal:#15c2b4;
+    --text:#f3f2ef;
+    --dim:#6c6c74;
+    --line:rgba(255,255,255,0.08);
+    --line2:rgba(255,107,26,0.25);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-font-smoothing:antialiased}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'JetBrains Mono',monospace;
+    overflow-x:hidden;
+    cursor:none;
+  }
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--accent);color:#000}
+
+  .glow{position:fixed;inset:0;z-index:0;pointer-events:none}
+  .glow::before{content:"";position:absolute;top:-20%;left:-15%;width:60vw;height:60vw;
+    background:radial-gradient(circle,rgba(255,107,26,0.18),transparent 60%);filter:blur(40px)}
+  .glow::after{content:"";position:absolute;bottom:-25%;right:-15%;width:55vw;height:55vw;
+    background:radial-gradient(circle,rgba(21,194,180,0.12),transparent 60%);filter:blur(40px)}
+
+  .grain{position:fixed;inset:0;z-index:60;pointer-events:none;opacity:0.05;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  .scan{position:fixed;inset:0;z-index:59;pointer-events:none;opacity:0.35;
+    background:repeating-linear-gradient(to bottom,transparent 0 2px,rgba(0,0,0,0.25) 2px 4px)}
+
+  .cur{position:fixed;z-index:90;width:26px;height:26px;border:1px solid var(--accent);border-radius:50%;
+    transform:translate(-50%,-50%);pointer-events:none;transition:width .2s,height .2s,background .2s;mix-blend-mode:difference}
+  .cur.dot{position:fixed;z-index:91;width:4px;height:4px;background:var(--accent);border-radius:50%;
+    transform:translate(-50%,-50%);pointer-events:none}
+  .cur.hov{width:46px;height:46px;background:rgba(255,107,26,0.1)}
+  @media (max-width:760px){.cur,.cur.dot{display:none}body{cursor:auto}}
+
+  .hud{position:fixed;z-index:55;pointer-events:none;font-family:'JetBrains Mono';font-size:11px;
+    letter-spacing:1px;color:var(--dim);text-transform:uppercase}
+  .hud.tl{top:18px;left:20px}
+  .hud.tr{top:18px;right:20px;text-align:right}
+  .hud.bl{bottom:18px;left:20px}
+  .hud.br{bottom:18px;right:20px;text-align:right}
+  .hud .on{color:var(--accent)}
+  .hud .blink{animation:blink 1.1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  @media (max-width:760px){.hud.bl,.hud.br{display:none}.hud{font-size:9px}}
+
+  #three{position:fixed;inset:0;z-index:1}
+  .wrap{position:relative;z-index:10}
+  section{padding:120px 8vw;position:relative}
+  .kicker{font-size:12px;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:24px;
+    display:flex;align-items:center;gap:10px}
+  .kicker::before{content:"";width:30px;height:1px;background:var(--accent)}
+
+  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:80px}
+  .hero h1{font-family:'Chakra Petch';font-weight:700;font-size:clamp(42px,9vw,128px);line-height:0.95;
+    letter-spacing:-2px;text-transform:uppercase;max-width:14ch}
+  .hero h1 .hl{color:var(--accent);position:relative}
+  .hero .sub{margin-top:28px;max-width:54ch;font-size:clamp(14px,1.6vw,17px);color:#c9c8c4;line-height:1.7}
+  .cta-row{margin-top:42px;display:flex;gap:16px;flex-wrap:wrap}
+  .btn{font-family:'JetBrains Mono';font-size:13px;letter-spacing:1px;text-transform:uppercase;
+    padding:15px 26px;border:1px solid var(--accent);position:relative;overflow:hidden;transition:color .3s}
+  .btn.fill{background:var(--accent);color:#0a0a0b;font-weight:700}
+  .btn.line{color:var(--text)}
+  .btn.line::after{content:"";position:absolute;inset:0;background:var(--accent);transform:translateY(101%);
+    transition:transform .35s cubic-bezier(.7,0,.2,1);z-index:-1}
+  .btn.line:hover{color:#0a0a0b}
+  .btn.line:hover::after{transform:translateY(0)}
+  .btn span{position:relative;z-index:2}
+
+  .terminal{margin-top:60px;max-width:520px;border:1px solid var(--line);background:rgba(10,10,12,0.6);
+    backdrop-filter:blur(6px);font-size:12.5px}
+  .terminal .bar{display:flex;align-items:center;gap:8px;padding:9px 14px;border-bottom:1px solid var(--line);color:var(--dim)}
+  .terminal .bar i{width:9px;height:9px;border-radius:50%;background:#2a2a2e;display:inline-block}
+  .terminal .bar i:first-child{background:var(--accent2)}
+  .terminal .body{padding:16px;line-height:1.9;color:#a9a8a4}
+  .terminal .body .ok{color:var(--teal)}
+  .terminal .body .p{color:var(--accent)}
+
+  .manifesto h2{font-family:'Chakra Petch';font-weight:700;font-size:clamp(34px,6.5vw,86px);line-height:1.02;
+    text-transform:uppercase;letter-spacing:-1px;max-width:18ch}
+  .manifesto h2 .dim{color:var(--dim)}
+  .manifesto p{margin-top:30px;max-width:60ch;font-size:clamp(14px,1.5vw,17px);color:#b9b8b4;line-height:1.8}
+
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:50px}
+  @media (max-width:880px){.grid3{grid-template-columns:1fr}}
+  .card{border:1px solid var(--line);background:var(--panel);backdrop-filter:blur(8px);padding:34px 30px;
+    position:relative;overflow:hidden;transition:border-color .35s,transform .35s}
+  .card::before{content:"";position:absolute;top:0;left:0;width:0;height:2px;background:var(--accent);transition:width .4s}
+  .card:hover{border-color:var(--line2);transform:translateY(-4px)}
+  .card:hover::before{width:100%}
+  .card .no{font-size:12px;color:var(--accent);letter-spacing:2px}
+  .card h3{font-family:'Chakra Petch';font-weight:600;font-size:24px;text-transform:uppercase;margin:18px 0 14px}
+  .card p{font-size:13.5px;color:#a4a3a0;line-height:1.75}
+
+  .work-item{border-top:1px solid var(--line);padding:42px 0;display:grid;grid-template-columns:90px 1fr auto;
+    gap:30px;align-items:start;transition:padding-left .35s,background .35s}
+  .work-item:last-child{border-bottom:1px solid var(--line)}
+  .work-item:hover{padding-left:18px;background:linear-gradient(90deg,rgba(255,107,26,0.05),transparent)}
+  .work-item .idx{font-size:13px;color:var(--accent);letter-spacing:1px;padding-top:6px}
+  .work-item h3{font-family:'Chakra Petch';font-weight:600;font-size:clamp(22px,3vw,38px);text-transform:uppercase;line-height:1.05}
+  .work-item p{margin-top:14px;max-width:56ch;color:#a4a3a0;font-size:14px;line-height:1.7}
+  .work-item .tags{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
+  .work-item .tags span{font-size:11px;letter-spacing:1px;color:var(--dim);border:1px solid var(--line);padding:4px 10px;text-transform:uppercase}
+  .work-item .arrow{font-size:26px;color:var(--dim);padding-top:6px;transition:color .3s,transform .3s}
+  .work-item:hover .arrow{color:var(--accent);transform:translate(4px,-4px)}
+  @media (max-width:760px){.work-item{grid-template-columns:1fr}.work-item .arrow{display:none}}
+
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:50px;background:var(--line)}
+  @media (max-width:880px){.steps{grid-template-columns:repeat(2,1fr)}}
+  .step{background:var(--bg);padding:34px 26px}
+  .step .n{font-family:'Chakra Petch';font-size:48px;font-weight:700;color:var(--accent);line-height:1}
+  .step h4{font-family:'Chakra Petch';font-size:18px;text-transform:uppercase;margin:16px 0 10px;letter-spacing:1px}
+  .step p{font-size:13px;color:#a4a3a0;line-height:1.65}
+
+  .contact{text-align:center;padding-bottom:80px}
+  .contact h2{font-family:'Chakra Petch';font-weight:700;font-size:clamp(36px,7vw,96px);text-transform:uppercase;
+    line-height:1;letter-spacing:-1px}
+  .contact h2 .hl{color:var(--accent)}
+  .contact .big-btn{display:inline-block;margin-top:46px;font-family:'Chakra Petch';font-weight:700;font-size:clamp(20px,3vw,34px);
+    text-transform:uppercase;padding:24px 50px;border:1px solid var(--accent);transition:.35s;letter-spacing:1px}
+  .contact .big-btn:hover{background:var(--accent);color:#0a0a0b}
+  .contact .area{margin-top:40px;font-size:13px;color:var(--dim);letter-spacing:1px;line-height:2}
+  .contact .area b{color:var(--text)}
+
+  footer{padding:36px 8vw;border-top:1px solid var(--line);display:flex;justify-content:space-between;
+    align-items:center;font-size:11px;letter-spacing:1px;color:var(--dim);text-transform:uppercase;flex-wrap:wrap;gap:12px}
+
+  .rv{opacity:0;transform:translateY(40px)}
+
+  .glitch{position:relative}
+  .glitch.go::before,.glitch.go::after{content:attr(data-t);position:absolute;left:0;top:0;width:100%;overflow:hidden}
+  .glitch.go::before{color:var(--teal);animation:gl1 .35s steps(2) 1;clip-path:inset(0 0 55% 0)}
+  .glitch.go::after{color:var(--accent);animation:gl2 .35s steps(2) 1;clip-path:inset(55% 0 0 0)}
+  @keyframes gl1{0%{transform:translateX(-4px)}50%{transform:translateX(3px)}100%{transform:translateX(0)}}
+  @keyframes gl2{0%{transform:translateX(4px)}50%{transform:translateX(-3px)}100%{transform:translateX(0)}}
+</style>
+</head>
+<body>
+  <div class="glow"></div>
+  <canvas id="three"></canvas>
+  <div class="scan"></div>
+  <div class="grain"></div>
+
+  <div class="cur"></div>
+  <div class="cur dot"></div>
+
+  <div class="hud tl">HONEST_AI<span class="on">//</span>SYS<span class="blink">_</span></div>
+  <div class="hud tr" id="clock">--:--:-- UTC</div>
+  <div class="hud bl">LAT 51.50 / LON -3.57<br>NODE: SOUTH_WALES</div>
+  <div class="hud br" id="scrollpct">SCROLL 000%</div>
+
+  <div class="wrap">
+    <section class="hero">
+      <div class="kicker rv">YOUR BRAND · ONLINE · UNFORGETTABLE</div>
+      <h1 class="rv glitch" data-t="This could be your website.">This could be <span class="hl">your website.</span></h1>
+      <p class="sub rv">You're looking at what's possible. Not a template. Not a tweaked theme everyone else is using. A site built to stop the scroll, hold attention and turn visitors into customers. Now picture it carrying your name.</p>
+      <div class="cta-row rv">
+        <a class="btn fill" href="#contact"><span>Move to the next level now</span></a>
+        <a class="btn line" href="#work"><span>See what's possible</span></a>
+      </div>
+      <div class="terminal rv">
+        <div class="bar"><i></i><i></i><i></i><span style="margin-left:8px">honest_ai — bash</span></div>
+        <div class="body">
+          <div><span class="p">$</span> build your_business --site</div>
+          <div><span class="ok">✓</span> designing something memorable...</div>
+          <div><span class="ok">✓</span> wiring it to convert...</div>
+          <div><span class="ok">✓</span> ready to launch<span class="blink">_</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="manifesto">
+      <div class="kicker rv">// 01 — THE REALITY</div>
+      <h2 class="rv">Most websites are <span class="dim">wallpaper.</span><br>Yours shouldn't be.</h2>
+      <p class="rv">Your competitors are all running the same tired templates — the same stock photos, the same fonts, the same forgettable layout. Visitors land, glance, and leave. A site like this does the opposite. It makes people stop, feel something, and remember who you are.</p>
+      <p class="rv">This is the difference between a website that exists and one that works. Move to the next level now.</p>
+    </section>
+
+    <section>
+      <div class="kicker rv">// 02 — WHAT YOU GET</div>
+      <div class="grid3">
+        <div class="card rv">
+          <div class="no">[A]</div>
+          <h3>Stand Out</h3>
+          <p>A site people actually remember. While everyone else blends into the same template, yours stops the scroll and makes a first impression that lasts.</p>
+        </div>
+        <div class="card rv">
+          <div class="no">[B]</div>
+          <h3>Built to Convert</h3>
+          <p>Every section is engineered to move a visitor toward action. It looks like art and works like your best salesperson — turning clicks into enquiries.</p>
+        </div>
+        <div class="card rv">
+          <div class="no">[C]</div>
+          <h3>AI Built In</h3>
+          <p>Optional AI agents handle enquiries, quotes and follow-ups around the clock. Your site doesn't just sit there looking good — it works while you sleep.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="work">
+      <div class="kicker rv">// 03 — IMAGINE IT'S YOURS</div>
+      <div class="work-item rv">
+        <div class="idx">001</div>
+        <div>
+          <h3>Your Storefront</h3>
+          <p>A homepage that does the heavy lifting before you say a word. Cinematic, fast, and unmistakably you — the kind of first impression that makes a visitor assume you're the best in the business.</p>
+          <div class="tags"><span>Custom Design</span><span>3D / Motion</span><span>Mobile-Ready</span></div>
+        </div>
+        <div class="arrow">↗</div>
+      </div>
+      <div class="work-item rv">
+        <div class="idx">002</div>
+        <div>
+          <h3>Your Sales Engine</h3>
+          <p>Quote forms, booking flows and calls-to-action placed exactly where attention peaks. Built so enquiries land in your inbox while competitors are still loading their carousel.</p>
+          <div class="tags"><span>Lead Capture</span><span>Conversion</span><span>Automation</span></div>
+        </div>
+        <div class="arrow">↗</div>
+      </div>
+      <div class="work-item rv">
+        <div class="idx">003</div>
+        <div>
+          <h3>Your Always-On Team</h3>
+          <p>An AI assistant baked into the site that answers questions, prices jobs and follows up with leads 24/7 — so no opportunity slips away just because it's 9pm on a Sunday.</p>
+          <div class="tags"><span>AI Agent</span><span>24/7</span><span>Honest AI</span></div>
+        </div>
+        <div class="arrow">↗</div>
+      </div>
+    </section>
+
+    <section>
+      <div class="kicker rv">// 04 — HOW WE GET YOU THERE</div>
+      <div class="steps">
+        <div class="step rv"><div class="n">01</div><h4>Discovery</h4><p>We learn your business, your customers and what you want a visitor to do — fast, no jargon.</p></div>
+        <div class="step rv"><div class="n">02</div><h4>Design</h4><p>You see your brand brought to life in a look built to stand out, not blend in.</p></div>
+        <div class="step rv"><div class="n">03</div><h4>Build</h4><p>We build it properly — quick to load, flawless on mobile, and wired to convert.</p></div>
+        <div class="step rv"><div class="n">04</div><h4>Launch</h4><p>It goes live and starts working for you, with optional AI and support to take it further.</p></div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <div class="kicker rv" style="justify-content:center">// 05 — START HERE</div>
+      <h2 class="rv">Move to the<br>next level <span class="hl">now.</span></h2>
+      <a class="big-btn rv" href="mailto:hello@honest-ai.co.uk?subject=I%20want%20a%20website%20like%20this">Move to the next level now ↗</a>
+      <div class="area rv">
+        Built by <b>Honest AI</b>. <b>Face-to-face</b> across South Wales, Bristol &amp; Gloucester.<br>
+        <b>Zoom</b> everywhere else.
+      </div>
+    </section>
+
+    <footer>
+      <div>HONEST AI</div>
+      <div>THIS COULD BE YOUR WEBSITE</div>
+      <div>© MMXXVI — SYS.ONLINE</div>
+    </footer>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.1.13/lenis.min.js"></script>
+  <script>
+  (function(){
+    "use strict";
+    var lenis=null;
+    try{
+      if(window.Lenis){
+        lenis=new window.Lenis({lerp:0.085,wheelMultiplier:0.9,smoothWheel:true});
+        function raf(t){lenis.raf(t);requestAnimationFrame(raf);}
+        requestAnimationFrame(raf);
+        if(window.ScrollTrigger){lenis.on('scroll',ScrollTrigger.update);}
+      }
+    }catch(e){}
+
+    var ring=document.querySelector('.cur'),dot=document.querySelector('.cur.dot');
+    var mx=window.innerWidth/2,my=window.innerHeight/2,rx=mx,ry=my;
+    window.addEventListener('mousemove',function(e){
+      mx=e.clientX;my=e.clientY;
+      if(dot){dot.style.left=mx+'px';dot.style.top=my+'px';}
+    });
+    function curLoop(){
+      rx+=(mx-rx)*0.18;ry+=(my-ry)*0.18;
+      if(ring){ring.style.left=rx+'px';ring.style.top=ry+'px';}
+      requestAnimationFrame(curLoop);
+    }
+    curLoop();
+    document.querySelectorAll('a,.card,.work-item').forEach(function(el){
+      el.addEventListener('mouseenter',function(){if(ring)ring.classList.add('hov');});
+      el.addEventListener('mouseleave',function(){if(ring)ring.classList.remove('hov');});
+    });
+
+    var clock=document.getElementById('clock'),spct=document.getElementById('scrollpct');
+    setInterval(function(){
+      if(clock){clock.textContent=new Date().toISOString().substr(11,8)+' UTC';}
+    },1000);
+    window.addEventListener('scroll',function(){
+      var h=document.documentElement.scrollHeight-window.innerHeight;
+      var p=h>0?Math.round(window.scrollY/h*100):0;
+      if(spct)spct.textContent='SCROLL '+String(p).padStart(3,'0')+'%';
+    });
+
+    try{
+      if(window.THREE){
+        var canvas=document.getElementById('three');
+        var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+        renderer.setSize(window.innerWidth,window.innerHeight);
+        var scene=new THREE.Scene();
+        scene.fog=new THREE.FogExp2(0x0a0a0b,0.055);
+        var camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,100);
+        camera.position.z=14;
+        var COUNT=900;
+        var geo=new THREE.BufferGeometry();
+        var pos=new Float32Array(COUNT*3);
+        for(var i=0;i<COUNT;i++){
+          pos[i*3]=(Math.random()-0.5)*48;
+          pos[i*3+1]=(Math.random()-0.5)*30;
+          pos[i*3+2]=(Math.random()-0.5)*30;
+        }
+        geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+        var pmat=new THREE.PointsMaterial({color:0xff6b1a,size:0.06,transparent:true,opacity:0.7});
+        var points=new THREE.Points(geo,pmat);
+        scene.add(points);
+        var ico=new THREE.Mesh(
+          new THREE.IcosahedronGeometry(3.4,1),
+          new THREE.MeshBasicMaterial({color:0xff6b1a,wireframe:true,transparent:true,opacity:0.32})
+        );
+        scene.add(ico);
+        var ico2=new THREE.Mesh(
+          new THREE.IcosahedronGeometry(4.6,0),
+          new THREE.MeshBasicMaterial({color:0x15c2b4,wireframe:true,transparent:true,opacity:0.12})
+        );
+        scene.add(ico2);
+        var tmx=0,tmy=0;
+        window.addEventListener('mousemove',function(e){
+          tmx=(e.clientX/window.innerWidth-0.5);
+          tmy=(e.clientY/window.innerHeight-0.5);
+        });
+        var sY=0;
+        window.addEventListener('scroll',function(){sY=window.scrollY;});
+        function render(){
+          ico.rotation.x+=0.0016;ico.rotation.y+=0.0022;
+          ico2.rotation.x-=0.001;ico2.rotation.y-=0.0014;
+          points.rotation.y+=0.0004;
+          camera.position.x+=(tmx*3-camera.position.x)*0.04;
+          camera.position.y+=(-tmy*3-camera.position.y)*0.04;
+          camera.position.z=14+sY*0.006;
+          camera.lookAt(0,0,0);
+          renderer.render(scene,camera);
+          requestAnimationFrame(render);
+        }
+        render();
+        window.addEventListener('resize',function(){
+          camera.aspect=window.innerWidth/window.innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth,window.innerHeight);
+        });
+      }
+    }catch(e){}
+
+    try{
+      if(window.gsap && window.ScrollTrigger){
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.to('.hero .rv',{opacity:1,y:0,duration:0.9,stagger:0.12,ease:'power3.out',delay:0.2});
+        gsap.utils.toArray('section:not(.hero) .rv').forEach(function(el){
+          gsap.to(el,{opacity:1,y:0,duration:0.8,ease:'power3.out',
+            scrollTrigger:{trigger:el,start:'top 88%'}});
+        });
+      } else {
+        document.querySelectorAll('.rv').forEach(function(el){el.style.opacity=1;el.style.transform='none';});
+      }
+    }catch(e){
+      document.querySelectorAll('.rv').forEach(function(el){el.style.opacity=1;el.style.transform='none';});
+    }
+
+    var g=document.querySelector('.glitch');
+    function fire(){if(!g)return;g.classList.add('go');setTimeout(function(){g.classList.remove('go');},350);}
+    if(g){g.addEventListener('mouseenter',fire);setInterval(function(){if(Math.random()>0.6)fire();},3200);}
+
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+      a.addEventListener('click',function(e){
+        var id=a.getAttribute('href');if(id==='#')return;
+        var t=document.querySelector(id);if(!t)return;
+        e.preventDefault();
+        if(lenis){lenis.scrollTo(t,{offset:-20});}
+        else{t.scrollIntoView({behavior:'smooth'});}
+      });
+    });
+  })();
+  </script>
+</body>
+</html>
